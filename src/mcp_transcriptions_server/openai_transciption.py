@@ -51,7 +51,9 @@ async def get_file_bytes(filepath: Path) -> bytes:
         return await file.read()
 
 
-async def get_a_transcript_from_file(transcript_request: TranscriptionRequest) -> str:
+async def get_a_transcript_from_file(
+    transcript_request: TranscriptionRequest,
+) -> dict[str, str]:
     """
     Retrieves the file specified and sends the bytes to the transcription API.
     Returns the transcription text.
@@ -63,13 +65,18 @@ async def get_a_transcript_from_file(transcript_request: TranscriptionRequest) -
     bytes.name = filepath.name
     client = AsyncOpenAI()
     transcription = await client.audio.transcriptions.create(file=bytes, **args)
-    return transcription.text
+    if isinstance(transcription, BaseModel):
+        return transcription.model_dump()
+    return {"text": transcription}
 
 
 async def process_transcript_request(
     request: TranscriptionRequest, file: TextIO | None = None
 ) -> str:
     transcript = await get_a_transcript_from_file(request)
+    text = transcript.get("text")
+    if text is None:
+        raise ValueError("Transcription object does not contain 'text' field")
     if file is not None:
-        file.write(transcript)
-    return transcript
+        _ = file.write(text)
+    return text
