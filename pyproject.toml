@@ -1,0 +1,17 @@
+[project]
+name = "mcp-transcriptions-server"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "mcp[cli]>=1.16.0",
+    "openai>=2.1.0",
+]
+
+[project.scripts]
+mcp-transcriptions-server = "mcp_transcriptions_server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
