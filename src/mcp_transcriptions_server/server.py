@@ -35,11 +35,12 @@ async def get_transcription_from_file(inputs: list[FullRequest]) -> list[str]:
         If the output path of the request is provided, the transcript will be saved to the file.
         If the output path is not provided, the transcript will be returned as a string.
         """
+        request = TranscriptionRequest(**input.model_dump(exclude={"output_path"}))
         if input.output_path is not None:
             with open(input.output_path, "w") as f:
-                await process_transcript_request(input, file=f)
+                _ = await process_transcript_request(request, file=f)
             return f"Transcription saved to {input.output_path}"
-        transcript = await process_transcript_request(input)
+        transcript = await process_transcript_request(request)
         return transcript
 
     return await asyncio.gather(*[process_transcription(input) for input in inputs])
