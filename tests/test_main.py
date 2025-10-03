@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import AsyncMock
-from mcp_transcriptions_server.main import mcp, FullRequest
+from mcp_transcriptions_server.server import mcp, FullRequest
 from pathlib import Path
 
 
