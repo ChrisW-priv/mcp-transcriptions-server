@@ -56,7 +56,8 @@ async def get_a_transcript_from_file(
 ) -> dict[str, str]:
     """
     Retrieves the file specified and sends the bytes to the transcription API.
-    Returns the transcription text.
+    Returns the transcription text, and possibly some other data as dict.
+    Retrieve text by using .get("text")
     """
     args = transcript_request.model_dump(exclude_none=True)
     filepath = args.pop("input_path")
