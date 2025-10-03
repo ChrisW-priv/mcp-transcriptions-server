@@ -26,7 +26,7 @@ async def test_get_transcription_from_file_tool_direct_return(mocker):
     """Test the tool's direct return functionality."""
     mock_process = AsyncMock(return_value="direct transcript")
     mocker.patch(
-        "mcp_transcriptions_server.main.process_transcript_request", new=mock_process
+        "mcp_transcriptions_server.server.process_transcript_request", new=mock_process
     )
 
     request = FullRequest(input_path=Path("dummy.mp3"))
@@ -43,7 +43,7 @@ async def test_get_transcription_from_file_tool_save_to_file(mocker, tmp_path):
     output_path = tmp_path / "transcript.txt"
     mock_process = AsyncMock()
     mocker.patch(
-        "mcp_transcriptions_server.main.process_transcript_request", new=mock_process
+        "mcp_transcriptions_server.server.process_transcript_request", new=mock_process
     )
 
     request = FullRequest(input_path=Path("dummy.mp3"), output_path=output_path)

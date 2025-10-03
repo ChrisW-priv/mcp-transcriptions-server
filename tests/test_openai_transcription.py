@@ -11,7 +11,7 @@ from mcp_transcriptions_server.openai_transciption import (
 
 
 async def mock_get_transcript(request):
-    return "saved transcription"
+    return {"text": "saved transcription"}
 
 
 @pytest.mark.asyncio
@@ -19,7 +19,7 @@ async def test_get_a_transcript_from_file_mocked(mocker):
     """Test that the async client is called correctly."""
     mock_async_openai = MagicMock()
     mock_async_openai.audio.transcriptions.create = AsyncMock(
-        return_value=MagicMock(text="mocked transcription")
+        return_value="mocked transcription"
     )
     mocker.patch(
         "mcp_transcriptions_server.openai_transciption.AsyncOpenAI",
@@ -34,7 +34,7 @@ async def test_get_a_transcript_from_file_mocked(mocker):
         TranscriptionRequest(input_path=Path("dummy.mp3"))
     )
 
-    assert result == "mocked transcription"
+    assert result["text"] == "mocked transcription"
     mock_async_openai.audio.transcriptions.create.assert_called_once()
 
 
