@@ -1,8 +1,11 @@
-
 import pytest
 import os
 from pathlib import Path
-from mcp_transcriptions_server.openai_transciption import get_a_transcript_from_file, TranscriptionRequest
+from mcp_transcriptions_server.openai_transciption import (
+    get_a_transcript_from_file,
+    TranscriptionRequest,
+)
+
 
 @pytest.mark.e2e
 @pytest.mark.asyncio
@@ -16,7 +19,7 @@ async def test_get_a_transcript_from_file_e2e():
 
     audio_path = Path(__file__).parent / "dummy_audio.mp3"
     request = TranscriptionRequest(input_path=audio_path)
-    
+
     transcript = await get_a_transcript_from_file(request)
-    
+
     assert "hello world" in transcript.lower()

@@ -30,7 +30,9 @@ async def test_get_transcription_from_file_tool_direct_return(mocker):
     )
 
     request = FullRequest(input_path=Path("dummy.mp3"))
-    results = await mcp.call_tool("get_transcription_from_file", {"inputs": [request.model_dump()]})
+    results = await mcp.call_tool(
+        "get_transcription_from_file", {"inputs": [request.model_dump()]}
+    )
     assert results[0][0].text == "direct transcript"
     mock_process.assert_called_once()
 
@@ -45,7 +47,9 @@ async def test_get_transcription_from_file_tool_save_to_file(mocker, tmp_path):
     )
 
     request = FullRequest(input_path=Path("dummy.mp3"), output_path=output_path)
-    results = await mcp.call_tool("get_transcription_from_file", {"inputs": [request.model_dump()]})
+    results = await mcp.call_tool(
+        "get_transcription_from_file", {"inputs": [request.model_dump()]}
+    )
     assert results[0][0].text == f"Transcription saved to {output_path}"
     # Check that process_transcript_request was called with a file-like object
     mock_process.assert_called_once()
