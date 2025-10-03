@@ -56,7 +56,7 @@ async def get_a_transcript_from_file(transcript_request: TranscriptionRequest) -
     Retrieves the file specified and sends the bytes to the transcription API.
     Returns the transcription text.
     """
-    args = transcript_request.dict(exclude_none=True)
+    args = transcript_request.model_dump(exclude_none=True)
     filepath = args.pop("input_path")
     audio_file_bytes = await get_file_bytes(filepath)
     bytes = BytesIO(audio_file_bytes)
